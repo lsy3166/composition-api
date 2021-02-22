@@ -1,35 +1,32 @@
 <template>
   <div>
-      <complete-todo />
-      <input type="text" @keyup.enter="addTodo">
-      <hr>
-      <todo-list />
-      <hr>
-      {{todos}}
-      <hr>
-      <user-list />
+    <complete-todo />
+    <span>Add TODO </span>
+    <input type="text" @keyup.enter="addTodo" />
+    <todo-list />
+    <hr />
+    <user-list />
   </div>
 </template>
 
 <script>
-import CompleteTodo from '../components/CompleteTodo.vue'
-import TodoList from '../components/TodoList.vue'
-import { mapState } from 'vuex';
-import UserList from './UserList.vue';
+import TodoList from "./TodoList.vue";
+import { useStore } from "vuex";
+import CompleteTodo from "./CompleteTodo.vue";
+import UserList from "./UserList.vue";
 export default {
-    components: { TodoList, CompleteTodo, UserList },
-    computed: {
-        ...mapState('todo', ['todos'])
-    },
-    methods: {
-        addTodo(e) {
-            this.$store.dispatch('todo/ac_addTodo', e.target.value);
-            e.target.value = "";
-        }
-    },
-}
+  components: { TodoList, CompleteTodo, UserList },
+  setup() {
+    const store = useStore();
+
+    const addTodo = (e) => {
+      store.dispatch("todo/ac_addTodo", e.target.value);
+    };
+    return {
+      addTodo
+    };
+  }
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

@@ -1,34 +1,43 @@
 <template>
   <div>
-      <div v-for="(todo, idx) in todos" :key="idx">
-        {{todo.checked}}
-        <input type="checkbox" :checked="todo.checked" @change="completeTodo(todo.id, $event)" >
-        <span :style="todo.checked?'text-decoration:line-through;color:gray':''">{{todo.text}}</span>
-        <button style="margin:7px" @click="deleteTodo(todo.id)">Delete</button>
-      </div>
+    <hr />
+    <div v-for="(todo, index) in todos" :key="index">
+      {{ todo.checked }}
+      <input
+        type="checkbox"
+        :checked="todo.checked"
+        @click="completeTodo($event, index)"
+      />
+      <span>{{ todo.text }}</span>
+      <button style="margin:0 0 0 10px" @click="deleteTodo(index)">
+        Delete
+      </button>
+    </div>
+    {{ todos }}
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { useStore } from "vuex";
 export default {
-    computed: {
-        ...mapState('todo', ['todos']),
-    },
-    methods: {
-        completeTodo(todoId, event) {
-            this.$store.commit('todo/mu_completeTodo', {
-                todoId, 
-                event
-            })
-        },
-        deleteTodo(todoId) {
-            this.$store.commit('todo/mu_deleteTodo', todoId);
-        }
-    },
-}
+  setup() {
+    const store = useStore();
+    const todos = store.state.todo.todos;
+    const completeTodo = (e, index) => {
+      //store.state.todo.todos[index].checked = e.target.checked;
+      store.commit("todo/mu_completeTodo", { e, index });
+    };
+    const deleteTodo = (index) => {
+      store.commit("todo/mu_deleteTodo", index);
+    };
+
+    return {
+      todos,
+      completeTodo,
+      deleteTodo
+    };
+  }
+};
 </script>
 
-<style>
-
-</style>
+<style></style>

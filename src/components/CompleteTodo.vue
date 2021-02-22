@@ -1,21 +1,25 @@
 <template>
   <div>
-      <span>
-          Completed Todo Count : {{getCountTodo}}
-      </span>
+    <h2>Completed Count : {{ completedCount }}</h2>
   </div>
 </template>
 
 <script>
+import { computed } from "vue";
+import { useStore } from "vuex";
 export default {
-    computed: {
-        getCountTodo() {
-            return this.$store.getters['todo/getCountTodo']
-        }
-    },
-}
+  setup() {
+    const store = useStore();
+    const todos = store.state.todo.todos;
+    const completedCount = computed(
+      () => todos.filter((todo) => todo.checked).length
+    );
+
+    return {
+      completedCount
+    };
+  }
+};
 </script>
 
-<style>
-
-</style>
+<style></style>
