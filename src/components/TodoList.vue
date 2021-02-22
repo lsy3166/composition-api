@@ -8,7 +8,10 @@
         :checked="todo.checked"
         @click="completeTodo($event, index)"
       />
-      <span>{{ todo.text }}</span>
+      <span
+        :style="todo.checked ? 'color:red;text-decoration :line-through ' : ''"
+        >{{ todo.text }}</span
+      >
       <button style="margin:0 0 0 10px" @click="deleteTodo(index)">
         Delete
       </button>
