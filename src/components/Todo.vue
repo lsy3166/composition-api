@@ -1,6 +1,6 @@
 <template>
   <div>
-    <complete-todo />
+    <complete-todo :msg="msg" />
     <span>Add TODO </span>
     <input type="text" @keyup.enter="addTodo" />
     <todo-list />
@@ -22,8 +22,10 @@ export default {
     const addTodo = (e) => {
       store.dispatch("todo/ac_addTodo", e.target.value);
     };
+    const msg = "I can do it!";
     return {
-      addTodo
+      addTodo,
+      msg
     };
   }
 };
